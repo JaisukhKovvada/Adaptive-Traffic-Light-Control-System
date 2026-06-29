@@ -1,5 +1,5 @@
 Adaptive Traffic Light Control System
-Overview
+Overview 
 
 This project implements an intelligent traffic light control system using Arduino and IR sensors. Instead of assigning fixed signal timings, the system continuously monitors vehicle density on two roads and dynamically grants the green signal to the road with higher traffic.
 
