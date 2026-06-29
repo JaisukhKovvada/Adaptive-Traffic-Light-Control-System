@@ -1,0 +1,94 @@
+// === IR Sensor Pins ===
+const int IR_A_IN = 2;
+const int IR_A_OUT = 3;
+const int IR_B_IN = 4;
+const int IR_B_OUT = 5;
+
+// === Green LED Pins ===
+const int greenA = 8;  // Road B high traffic → Allow B
+const int greenB = 11; // Road A high traffic → Allow A
+
+// === Vehicle Counters ===
+int countA = 0;
+int countB = 0;
+
+// === Edge Detection Helpers ===
+int prevA_IN = HIGH;
+int prevA_OUT = HIGH;
+int prevB_IN = HIGH;
+int prevB_OUT = HIGH;
+
+void setup() {
+  Serial.begin(9600);
+
+  // Set sensor pins
+  pinMode(IR_A_IN, INPUT);
+  pinMode(IR_A_OUT, INPUT);
+  pinMode(IR_B_IN, INPUT);
+  pinMode(IR_B_OUT, INPUT);
+
+  // Set LED pins
+  pinMode(greenA, OUTPUT);
+  pinMode(greenB, OUTPUT);
+
+  // Start with both LEDs OFF
+  digitalWrite(greenA, LOW);
+  digitalWrite(greenB, LOW);
+}
+
+void loop() {
+  // Read current sensor values
+  int curA_IN = digitalRead(IR_A_IN);
+  int curA_OUT = digitalRead(IR_A_OUT);
+  int curB_IN = digitalRead(IR_B_IN);
+  int curB_OUT = digitalRead(IR_B_OUT);
+
+  // Road A Count IN
+  if (prevA_IN == HIGH && curA_IN == LOW) {
+    countA++;
+    Serial.print("IN A → Count A: ");
+    Serial.println(countA);
+  }
+
+  // Road A Count OUT
+  if (prevA_OUT == HIGH && curA_OUT == LOW && countA > 0) {
+    countA--;
+    Serial.print("OUT A → Count A: ");
+    Serial.println(countA);
+  }
+
+  // Road B Count IN
+  if (prevB_IN == HIGH && curB_IN == LOW) {
+    countB++;
+    Serial.print("IN B → Count B: ");
+    Serial.println(countB);
+  }
+
+  // Road B Count OUT
+  if (prevB_OUT == HIGH && curB_OUT == LOW && countB > 0) {
+    countB--;
+    Serial.print("OUT B → Count B: ");
+    Serial.println(countB);
+  }
+
+  // Update previous sensor states
+  prevA_IN = curA_IN;
+  prevA_OUT = curA_OUT;
+  prevB_IN = curB_IN;
+  prevB_OUT = curB_OUT;
+
+  // Compare counts and give green to road with higher traffic
+  if (countA > countB) {
+    digitalWrite(greenB, HIGH); // Road A has more traffic → Allow A
+    digitalWrite(greenA, LOW);
+  } else if (countB > countA) {
+    digitalWrite(greenA, HIGH); // Road B has more traffic → Allow B
+    digitalWrite(greenB, LOW);
+  } else {
+    // Equal counts or 0: No green light
+    digitalWrite(greenA, LOW);
+    digitalWrite(greenB, LOW);
+  }
+
+  delay(100); // Short delay for stable edge detection
+} 
