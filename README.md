@@ -1,73 +1,100 @@
-Adaptive Traffic Light Control System
-Overview 
+# Adaptive Traffic Light Control System
 
-This project implements an intelligent traffic light control system using Arduino and IR sensors. Instead of assigning fixed signal timings, the system continuously monitors vehicle density on two roads and dynamically grants the green signal to the road with higher traffic.
+## Overview
 
-The objective is to reduce unnecessary waiting time, improve traffic flow, and demonstrate a simple adaptive traffic management approach using embedded systems.
+This project implements an adaptive traffic light control system using Arduino and IR sensors. Instead of using fixed traffic signal timings, the controller continuously monitors vehicle density on two roads and dynamically assigns the green signal to the road with higher traffic.
 
-Features
-Real-time vehicle counting using IR sensors
-Adaptive signal control based on traffic density
-Rule-based decision-making algorithm
-Edge detection to avoid multiple counts
-Low-cost embedded implementation
-Easily expandable for multiple intersections
-Components Used
-Arduino UNO
-IR Sensors (4)
-LEDs
-Breadboard
-Jumper Wires
-USB Cable
-Working Principle
-IR sensors detect vehicles entering and leaving each road.
-Vehicle counts are updated in real time.
-The controller compares traffic density on both roads.
-The road with higher traffic receives the green signal.
-Signal status continuously updates as traffic changes.
-Algorithm
-Initialize sensors and LEDs
+The system demonstrates how embedded systems and real-time decision-making algorithms can improve traffic flow efficiency.
 
-Loop forever
+---
 
-Read all IR sensors
+## Features
 
-If vehicle enters Road A
-    Increment Count A
+- Real-time vehicle counting using IR sensors
+- Dynamic traffic density comparison
+- Adaptive green signal allocation
+- Rule-based embedded control logic
+- Simple and scalable design
+- Arduino implementation
 
-If vehicle exits Road A
-    Decrement Count A
+---
 
-If vehicle enters Road B
-    Increment Count B
+## Components Used
 
-If vehicle exits Road B
-    Decrement Count B
+- Arduino Uno
+- 4 IR Sensors
+- LEDs
+- Jumper Wires
+- Breadboard
+- USB Cable
 
-Compare Count A and Count B
+---
 
-If Count A > Count B
-    Give Green to Road A
+## Working Principle
 
-Else If Count B > Count A
-    Give Green to Road B
+1. Vehicles entering Road A and Road B are detected by entry IR sensors.
+2. Exit sensors decrement the vehicle count after vehicles leave.
+3. The controller continuously compares traffic density.
+4. The road with higher traffic receives the green signal.
+5. If both roads have equal traffic, both signals remain off.
 
-Else
-    Keep both signals OFF
+---
 
-Repeat
-Technologies Used
-Arduino IDE
-Embedded C
-Arduino UNO
-IR Sensors
-Rule-Based Control Logic
-Future Improvements
-Emergency vehicle priority
-GSM notification
-IoT monitoring
-Machine Learning based prediction
-Multiple junction support
-Author
+## Pin Configuration
+
+| Component | Arduino Pin |
+|-----------|-------------|
+| IR A Entry | D2 |
+| IR A Exit | D3 |
+| IR B Entry | D4 |
+| IR B Exit | D5 |
+| Green LED A | D8 |
+| Green LED B | D11 |
+
+---
+
+## Algorithm
+
+1. Initialize sensors and LEDs.
+2. Detect vehicle entry.
+3. Increment corresponding road counter.
+4. Detect vehicle exit.
+5. Decrement vehicle counter.
+6. Compare traffic counts.
+7. Assign green signal to the road with higher traffic.
+8. Repeat continuously.
+
+---
+
+## Project Structure
+
+```
+Adaptive-Traffic-Light-Control-System
+
+│
+├── Arduino_Code
+│     adaptive_traffic.ino
+│
+├── Circuit_Diagram
+│
+├── Images
+│
+└── README.md
+```
+
+---
+
+## Future Improvements
+
+- Four-road intersection support
+- Emergency vehicle detection
+- IoT monitoring dashboard
+- Machine Learning based traffic prediction
+- GSM notification system
+
+---
+
+## Author
 
 Jaisukh Kovvada
+Electronics and Communication Engineering
